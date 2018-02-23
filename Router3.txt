@@ -1,0 +1,95 @@
+%LINK-5-CHANGED: Interface FastEthernet0/1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
+%IP-4-DUPADDR: Duplicate address 192.168.3.1 on FastEthernet0/1, sourced by 0090.2BA5.E907
+ip add 192.168.3.1 255.255.255.0
+Router(config-if)#ip add 192.168.3.1 255.255.255.0
+Router(config-if)#no sh
+Router(config-if)#exit
+Router(config)#int fa 1/0
+Router(config-if)#ip add 192.168.10.1 255.255.255.252
+Router(config-if)#no sh
+
+Router(config-if)#
+%LINK-5-CHANGED: Interface FastEthernet1/0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to down
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to down
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to up
+
+Router(config-if)#exit
+Router(config)#int fa 1/0
+Router(config-if)#ip ?
+  access-group        Specify access control for packets
+  address             Set the IP address of an interface
+  authentication      authentication subcommands
+  flow                NetFlow Related commands
+  hello-interval      Configures IP-EIGRP hello interval
+  helper-address      Specify a destination address for UDP broadcasts
+  inspect             Apply inspect name
+  ips                 Create IPS rule
+  mtu                 Set IP Maximum Transmission Unit
+  nat                 NAT interface commands
+  ospf                OSPF interface commands
+  proxy-arp           Enable proxy ARP
+  split-horizon       Perform split horizon
+  summary-address     Perform address summarization
+  unnumbered          Enable IP processing without an explicit address
+  virtual-reassembly  Virtual Reassembly
+Router(config-if)#ip add 192.168.10.5 255.255.255.252
+Router(config-if)#no sh
+Router(config-if)#exit
+Router(config)#int fa 0/0
+Router(config-if)#ip add 10.13.1.11 255.255.255.0
+Router(config-if)#no sh
+
+Router(config-if)#
+%LINK-5-CHANGED: Interface FastEthernet0/0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up
+
+
+
+
+Router>en
+Router#conf t 
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#router rip
+Router(config-router)#network  10.13.1.0
+Router(config-router)#net
+Router(config-router)#network 192.168.3.0
+Router(config-router)#network 192.168.10.4
+
+
+Router#show ip route
+Codes: C - connected, S - static, I - IGRP, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     10.0.0.0/24 is subnetted, 1 subnets
+C       10.13.1.0 is directly connected, FastEthernet0/0
+R    192.168.1.0/24 [120/1] via 10.13.1.12, 00:00:24, FastEthernet0/0
+R    192.168.2.0/24 [120/1] via 192.168.10.6, 00:00:21, FastEthernet1/0
+C    192.168.3.0/24 is directly connected, FastEthernet0/1
+     192.168.10.0/30 is subnetted, 2 subnets
+R       192.168.10.0 [120/1] via 192.168.10.6, 00:00:21, FastEthernet1/0
+C       192.168.10.4 is directly connected, FastEthernet1/0
+
+Router#show  ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol 
+FastEthernet0/0        10.13.1.11      YES manual up                    up 
+FastEthernet0/1        192.168.3.1     YES manual up                    up 
+FastEthernet1/0        192.168.10.5    YES manual up                    up 
+Vlan1                  unassigned      YES unset  administratively down down
